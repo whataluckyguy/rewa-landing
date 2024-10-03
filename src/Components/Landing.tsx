@@ -1,47 +1,7 @@
-import { AnimatedSubscribeButton } from "./ui/animated-subscribe-button";
-import IconCloud from "./ui/icon-cloud";
-
-const slugs = [
-  "typescript",
-  "javascript",
-  "dart",
-  "java",
-  "react",
-  "flutter",
-  "android",
-  "html5",
-  "css3",
-  "nodedotjs",
-  "express",
-  "nextdotjs",
-  "prisma",
-  "amazonaws",
-  "postgresql",
-  "firebase",
-  "nginx",
-  "vercel",
-  "testinglibrary",
-  "jest",
-  "cypress",
-  "docker",
-  "git",
-  "jira",
-  "github",
-  "gitlab",
-  "visualstudiocode",
-  "androidstudio",
-  "sonarqube",
-  "figma",
-];
-
-const downloadApplication = () => {
-  const link = document.createElement("a");
-  link.href = "/Do.exe";
-  link.download = "Application.exe";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-};
+import IconsCloud from "./IconsCloud";
+import IntroPage from "./IntroPage";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 const Landing = () => {
   return (
@@ -95,45 +55,11 @@ const Landing = () => {
       {/* main */}
       {/* <div className="container px-6 mx-auto flex flex-wrap flex-col md:flex-row items-center"> */}
       <div className="container px-6 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-        <div className="flex flex-col w-full xl:w-2/5 justify-center lg:items-start overflow-y-hidden">
-          <h1 className="my-4 text-3xl md:text-5xl text-purple-800 font-bold leading-tight text-center md:text-left slide-in-bottom-h1">
-            Main Hero Message to sell your app
-          </h1>
-          <p className="leading-normal text-base md:text-2xl mb-8 text-center md:text-left slide-in-bottom-subtitle">
-            Sub-hero message, not too long and not too short. Make it just
-            right!
-          </p>
+        <IntroPage />
+        {/* <SignIn /> */}
+        {/* <SignUp /> */}
 
-          <p className="text-blue-400 font-bold pb-8 lg:pb-6 text-center md:text-left fade-in">
-            Download our app:
-          </p>
-          <div className="flex w-full  justify-center md:justify-start pb-24 lg:pb-0 fade-in ">
-            <AnimatedSubscribeButton
-              buttonColor="#000000"
-              buttonTextColor="#ffffff"
-              subscribeStatus={false}
-              initialText={
-                <span
-                  className="group inline-flex items-center"
-                  onClick={downloadApplication}
-                >
-                  Desktop Version
-                  {/* <ChevronRightIcon className="ml-1 size-4 transition-transform duration-300 group-hover:translate-x-1" /> */}
-                </span>
-              }
-              changeText={
-                <span className="group inline-flex items-center">
-                  {/* <CheckIcon className="mr-2 size-4" /> */}
-                  Downloading
-                </span>
-              }
-            />
-          </div>
-        </div>
-
-        <div className="w-full xl:w-3/5 py-6 overflow-y-hidden">
-          <IconCloud iconSlugs={slugs} />
-        </div>
+        <IconsCloud />
 
         <div className="w-full pt-16 pb-6 text-sm text-center md:text-left fade-in">
           <a className="text-gray-500 no-underline hover:no-underline" href="#">
