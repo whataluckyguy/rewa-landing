@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import userSlice from "./features/user/userSlice";
 // import userSlice from "./features/user/userSlice";
 
 // export default configureStore({
@@ -8,9 +9,13 @@ import { configureStore } from "@reduxjs/toolkit";
 // });
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    user: userSlice,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
+
+export default store;

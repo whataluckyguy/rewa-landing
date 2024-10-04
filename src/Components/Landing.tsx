@@ -1,9 +1,40 @@
+import { useEffect, useState } from "react";
 import IconsCloud from "./IconsCloud";
 import IntroPage from "./IntroPage";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import axios from "axios";
+import { useAppSelector, useAppDispatch } from "../States/hooks";
+import { handleUser } from "../States/features/user/userSlice";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
+  const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  // const [user, setUser] = useState<boolean>(false);
+  const user = useAppSelector((state) => state.user.value);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Fetched locally: ", localStorage.getItem("token"));
+    if (token) {
+      axios
+        .post("http://localhost:5000/verify-token", { token })
+        .then((response) => {
+          if (response.data.valid) {
+            setAuthenticated(true);
+            dispatch(handleUser());
+            console.log("Success");
+          } else {
+            localStorage.removeItem("token");
+          }
+        })
+        .catch((error) => {
+          console.error("Token verification failed: ", error);
+          localStorage.removeItem("token");
+        });
+    }
+  }, [isAuthenticating]);
+
   return (
     <div className="w-full landing leading-normal tracking-normal text-gray-900 h-screen pb-14 bg-right bg-cover">
       <div className="w-full container mx-auto p-6">
@@ -23,6 +54,13 @@ const Landing = () => {
           </a>
 
           <div className="flex w-1/2 justify-end content-center">
+            <Link
+              to="/signin"
+              className="text-white bg-blue-300 hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 me-2 mb-2"
+            >
+              Sign In
+            </Link>
+
             <a
               className="inline-block text-blue-300 no-underline hover:text-indigo-800 hover:text-underline text-center h-10 p-2 md:h-auto md:p-4"
               data-tippy-content="@twitter_handle"
@@ -56,8 +94,6 @@ const Landing = () => {
       {/* <div className="container px-6 mx-auto flex flex-wrap flex-col md:flex-row items-center"> */}
       <div className="container px-6 mx-auto flex flex-wrap flex-col md:flex-row items-center">
         <IntroPage />
-        {/* <SignIn /> */}
-        {/* <SignUp /> */}
 
         <IconsCloud />
 
