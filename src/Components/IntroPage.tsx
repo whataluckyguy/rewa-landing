@@ -3,8 +3,8 @@ import { AnimatedSubscribeButton } from "./ui/animated-subscribe-button";
 
 const downloadApplication = () => {
   const link = document.createElement("a");
-  link.href = "/Do.exe";
-  link.download = "Application.exe";
+  link.href = "/newapp.msi";
+  link.download = "Desktop.msi";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

@@ -7,11 +7,21 @@ import { handleUser } from "@/States/features/user/userSlice";
 import { login } from "./apiService";
 import { LinkedInApi } from "@/config";
 
+// interface tokenInterface {
+//   token: string;
+//   refreshToken: string;
+// }
+
 const SignIn = () => {
   const [email, setEmail] = useState<string>("");
   const [pwd, setPwd] = useState<string>("");
   const user = useAppSelector((state) => state.user.value);
   const dispatch = useAppDispatch();
+
+  // const tokens = {
+  //   token: localStorage.getItem("token"),
+  //   refreshToken: localStorage.getItem("refreshToken"),
+  // };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -46,6 +56,11 @@ const SignIn = () => {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("refreshToken", res.data.refreshToken);
       dispatch(handleUser());
+      const tokens = {
+        token: res.data.token,
+        refreshToken: res.data.refreshToken,
+      };
+      axios.post("http://localhost:4001/token", tokens);
     } catch (error) {
       console.error("Error logging in: ", error);
       // setResponse("Login failed");

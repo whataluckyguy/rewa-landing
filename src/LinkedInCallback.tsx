@@ -1,45 +1,21 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-// import { LinkedInApi } from "../config";
-// import { useDispatch } from "react-redux";
-// import { handleUser } from "../States/features/user/userSlice";
+
+// interface tokenTypes {
+//   token: string;
+//   refreshToken: string;
+// }
 
 const LinkedInCallback = () => {
   const location = useLocation();
-  //   const { clientId, redirectUrl, oauthUrl, scope, state } = LinkedInApi;
-  //   const dispatch = useDispatch();
+  // const [tokens, setTokens] = useState<tokenTypes>();
 
   useEffect(() => {
     const fetchToken = async () => {
       const params = new URLSearchParams(location.search);
       const code = params.get("code");
       const state = params.get("state");
-
-      // if (code && state) {
-      //   try {
-      //     const response = await axios.post(
-      //       "https://www.linkedin.com/oauth/v2/accessToken",
-      //       null,
-      //       {
-      //         params: {
-      //           grant_type: "authorization_code",
-      //           code,
-      //           redirect_uri: "http://localhost:5173/home",
-      //           client_id: clientId,
-      //           client_secret: "9jbQvqg1Gmyun0O5",
-      //         },
-      //         headers: {
-      //           "Content-Type": "application/x-www/form-urlencoded",
-      //         },
-      //       }
-      //     );
-      //     const { access_token } = response.data;
-      //     console.log("Access_token:", access_token);
-      //   } catch (error) {
-      //     console.error("Error fetching access token:", error);
-      //   }
-      // }
 
       if (code && state) {
         try {
@@ -50,8 +26,12 @@ const LinkedInCallback = () => {
           const { token, refreshToken } = response.data;
           localStorage.setItem("token", token);
           localStorage.setItem("refreshToken", refreshToken);
-          console.log("Token", token);
-          console.log("Refresh Token", refreshToken);
+
+          const tokens = { token: token, refreshToken: refreshToken };
+
+          console.log(tokens);
+
+          axios.post("http://localhost:4001/token", tokens);
         } catch (error) {
           console.error("Error fetching tokens:", error);
         }
@@ -60,7 +40,7 @@ const LinkedInCallback = () => {
     fetchToken();
   }, [location]);
 
-  return <div>Loading...</div>;
+  return <div>Authenticating... Please check your Desktop app</div>;
 };
 
 export default LinkedInCallback;

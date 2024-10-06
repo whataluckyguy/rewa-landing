@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import IconsCloud from "./IconsCloud";
 import React, { useEffect, useRef, useState } from "react";
 import { signup } from "./apiService";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { LinkedInApi } from "@/config";
 
 const SignUp = () => {
@@ -39,6 +39,12 @@ const SignUp = () => {
       console.log(JSON.stringify(signUpRes));
       localStorage.setItem("token", signUpRes.data.token);
       localStorage.setItem("refreshToken", signUpRes.data.refreshToken);
+      const tokens = {
+        token: signUpRes.data.token,
+        refreshToken: signUpRes.data.refreshToken,
+      };
+
+      axios.post("http://localhost:4001/token", tokens);
 
       setSuccess(true);
       setEmail("");
